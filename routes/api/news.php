@@ -3,7 +3,7 @@
 use App\Http\Controllers\News\NewsController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth.api', 'log.actions'], 'type:ADMINISTRADOR,GESTÃO')->group(function (){
+Route::middleware(['auth.api', 'type:ADMINISTRADOR|GESTÃO'])->group(function (){
     Route::post('/', [NewsController::class, 'store']);
     Route::get('/', [NewsController::class, 'index']);
     Route::get('/{id}', [NewsController::class, 'show']);

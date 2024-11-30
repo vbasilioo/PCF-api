@@ -3,11 +3,9 @@
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('log.actions')->group(function (){
-    Route::post('/', [UserController::class, 'store']);
-});
+Route::post('/', [UserController::class, 'store']);
 
-Route::middleware(['auth.api', 'log.actions'], 'type:ADMINISTRADOR,GESTÃO')->group(function (){
+Route::middleware(['auth.api', 'type:ADMINISTRADOR|GESTÃO'])->group(function (){
     Route::get('/total-users', [UserController::class, 'totalUsers']);
     Route::get('/total-users-department', [UserController::class, 'totalUsersDepartment']);
 

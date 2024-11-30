@@ -4,6 +4,7 @@ use App\Builder\ReturnApi;
 use App\Http\Middleware\JWTMiddleware;
 use App\Http\Middleware\LogActionsMiddleware;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Middleware\TypesMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,9 +22,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: ['/*']);
-        $middleware->appendToGroup('auth.api', [JWTMiddleware::class]);
-        $middleware->alias(['role' => RoleMiddleware::class]);
-        $middleware->alias(['log.actions' => LogActionsMiddleware::class]);
+        $middleware->alias([
+            'type' => TypesMiddleware::class,
+        ]);
+        $middleware->appendToGroup('auth.api', JWTMiddleware::class);
+        $middleware->appendToGroup('auth.api', LogActionsMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->renderable(function (NotFoundHttpException $e) {

@@ -3,7 +3,7 @@
 use App\Http\Controllers\Financial\FinancialController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth.api', 'log.actions'], 'type:ADMINISTRADOR,GESTÃO')->group(function (){
+Route::middleware(['auth.api', 'type:ADMINISTRADOR|GESTÃO'])->group(function (){
     Route::post('/', [FinancialController::class, 'store']);
     Route::get('/', [FinancialController::class, 'index']);
     Route::get('/{id}', [FinancialController::class, 'show']);
