@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Round;
 
+use App\Helpers\Requests\Paginate\PageRuleHelper;
+use App\Helpers\Requests\Paginate\PerPageRuleHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class IndexRoundRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,21 +24,16 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:users,id',
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string',
-            'date_of_birth' => 'required|date',
-            'role' => 'required|in:GESTÃO,VOLUNTÁRIO',
-            'profile_image' => 'required',
-            'department_id' => 'required|exists:departments,id'
+            ...PerPageRuleHelper::rule(),
+            ...PageRuleHelper::rule(),
         ];
     }
 
     public function prepareForValidation()
     {
         $this->merge([
-            'id' => $this->route('id'),
+            'per_page' => $this->route('per_page', 10),
+            'page' => $this->route('page', 1)
         ]);
     }
 }

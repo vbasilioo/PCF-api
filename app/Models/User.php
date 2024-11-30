@@ -27,7 +27,8 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'date_of_birth',
         'role',
-        'profile_image'
+        'profile_image',
+        'department_id',
     ];
 
     /**
@@ -91,5 +92,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function financial(){
         return $this->hasMany(Financial::class);
+    }
+
+    public function round(){
+        return $this->hasMany(Round::class);
     }
 }

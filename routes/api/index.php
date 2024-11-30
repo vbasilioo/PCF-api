@@ -22,3 +22,5 @@ Route::prefix('/served')->group(base_path('routes/api/served.php'));
 Route::prefix('/request')->group(base_path('routes/api/request.php'));
 
 Route::prefix('/news')->group(base_path('routes/api/news.php'));
+
+Route::prefix('/round')->group(base_path('routes/api/round.php'));

@@ -3,7 +3,7 @@
 use App\Http\Controllers\Request\RequestController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth.api'], 'type:ADMINISTRADOR,GESTÃO')->group(function (){
+Route::middleware(['auth.api', 'log.actions'], 'type:ADMINISTRADOR,GESTÃO')->group(function (){
     Route::post('/', [RequestController::class, 'store']);
     Route::get('/', [RequestController::class, 'index']);
     Route::get('/{id}', [RequestController::class, 'show']);

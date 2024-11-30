@@ -68,4 +68,22 @@ class ServedController extends Controller
             throw new ApiException($ex->getMessage() ?? 'Erro ao restaurar o atendido.', $ex->getCode() ?? 500);
         }
     }
+
+    public function totalServeds(){
+        try{
+            $data = $this->servedService->totalServeds();
+            return ReturnApi::success($data, 'Contagem de atendidos ativos realizada com sucesso.');
+        }catch(ApiException $ex){
+            throw new ApiException($ex->getMessage() ?? 'Erro ao fazer contagem de atendidos.', $ex->getCode() ?? 500);
+        }
+    }
+
+    public function totalServedsDepartments(){
+        try{
+            $data = $this->servedService->totalServedsDepartments();
+            return ReturnApi::success($data, 'Contagem de salas dos atendidos realizada com sucesso.');
+        }catch(ApiException $ex){
+            throw new ApiException($ex->getMessage() ?? 'Erro ao fazer contagem de salas dos atendidos.', $ex->getCode() ?? 500);
+        }
+    }
 }

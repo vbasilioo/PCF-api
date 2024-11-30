@@ -11,6 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('departments', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->boolean('excluded_from_rounds')->default(false);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
@@ -20,9 +29,12 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->enum('role', ['ADMINISTRADOR', 'GESTÃO', 'VOLUNTÁRIO'])->default('VOLUNTÁRIO');
             $table->string('profile_image')->nullable();
+            $table->uuid('department_id');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('department_id')->references('id')->on('departments');
         });
 
         Schema::create('addresses', function (Blueprint $table) {
@@ -37,17 +49,6 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
-        });
-
-        Schema::create('departments', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->uuid('leader_id');
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->foreign('leader_id')->references('id')->on('users');
         });
 
         Schema::create('serveds', function (Blueprint $table) {
@@ -114,6 +115,29 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        Schema::create('rounds', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->integer('quantity_rounds');
+            $table->uuid('user_id');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+
+        Schema::create('logs', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('user_id')->nullable();
+            $table->string('route');
+            $table->string('method');
+            $table->json('data')->nullable();
+            $table->text('message')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
     }
 
     /**
@@ -121,6 +145,14 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('logs');
+        Schema::dropIfExists('rounds');
+        Schema::dropIfExists('financials');
+        Schema::dropIfExists('news');
+        Schema::dropIfExists('requests');
+        Schema::dropIfExists('serveds');
+        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('departments');
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');

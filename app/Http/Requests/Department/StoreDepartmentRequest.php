@@ -24,7 +24,6 @@ class StoreDepartmentRequest extends FormRequest
         return [
             'name' => 'required|string',
             'description' => 'required|string',
-            'leader_id' => 'required|exists:users,id'
         ];
     }
 }

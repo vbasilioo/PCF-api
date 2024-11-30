@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Department;
+namespace App\Http\Requests\Round;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateDepartmentRequest extends FormRequest
+class StoreRoundRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +22,8 @@ class UpdateDepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:departments,id',
-            'name' => 'required|string',
-            'description' => 'required|string',
+            'quantity_rounds' => 'required|integer',
+            'user_id' => 'required|exists:users,id'
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'id' => $this->route('id'),
-        ]);
     }
 }

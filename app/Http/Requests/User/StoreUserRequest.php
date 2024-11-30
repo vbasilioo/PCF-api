@@ -27,6 +27,7 @@ class StoreUserRequest extends FormRequest
             'password' => 'required|string',
             'date_of_birth' => 'required|date',
             'profile_image' => 'required',
+            'department_id' => 'required|exists:departments,id'
         ];
     }
 }

@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\IdUserRequest;
 use App\Http\Requests\User\IndexUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\TotalUserDepartmentRequest;
+use App\Http\Requests\User\TotalUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\User\UserService;
 
@@ -66,6 +68,24 @@ class UserController extends Controller
             return ReturnApi::success($data, 'Usuário restaurado com sucesso.');
         }catch(ApiException $ex){
             throw new ApiException($ex->getMessage() ?? 'Erro ao restaurar o usuário.', $ex->getCode() ?? 500);
+        }
+    }
+
+    public function totalUsers(){
+        try{
+            $data = $this->userService->totalUsers();
+            return ReturnApi::success($data, 'Todos voluntários listados com sucesso.');
+        }catch(ApiException $ex){
+            throw new ApiException($ex->getMessage() ?? 'Erro ao contabilizar voluntários.', $ex->getCode() ?? 500);
+        }
+    }
+
+    public function totalUsersDepartment(){
+        try{
+            $data = $this->userService->totalUsersDepartment();
+            return ReturnApi::success($data, 'Todos os departamentos dos voluntários foram listados com sucesso.');
+        }catch(ApiException $ex){
+            throw new ApiException($ex->getMessage() ?? 'Erro ao contabilizar departamentos dos voluntários.', $ex->getCode() ?? 500);
         }
     }
 }

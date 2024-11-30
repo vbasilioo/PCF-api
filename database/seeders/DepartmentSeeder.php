@@ -13,7 +13,6 @@ class DepartmentSeeder extends Seeder
         Department::create([
             'name' => 'Departamento de TI',
             'description' => 'Departamento responsável por toda infraestrutura de TI',
-            'leader_id' => User::first()->id,
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services\Served;
 
+use App\Models\Department;
 use App\Models\Served;
 
 class ServedService{
@@ -30,5 +31,21 @@ class ServedService{
     public function restore(array $data): array{
         Served::withTrashed()->where('id', $data['id'])->restore();
         return Served::find($data['id'])->toArray();
+    }
+
+    public function totalServeds(){
+        return Served::whereNotNull('deleted_at')->count();
+    }
+
+    public function totalServedsDepartments(){
+        return Department::withCount(['served' => function ($query) {
+            $query->whereNull('deleted_at');
+        }])->get()->map(function ($department) {
+            return [
+                'department_id' => $department->id,
+                'department_name' => $department->name,
+                'active_serveds_count' => $department->user_count,
+            ];
+        });
     }
 }
