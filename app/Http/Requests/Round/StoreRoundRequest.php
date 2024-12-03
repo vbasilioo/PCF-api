@@ -22,7 +22,7 @@ class StoreRoundRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'quantity_rounds' => 'required|integer',
+            'round_number' => 'required|integer',
             'user_id' => 'required|exists:users,id'
         ];
     }

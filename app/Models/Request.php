@@ -18,11 +18,11 @@ class Request extends Model
         'department_id',
     ];
 
-    public function user(){
+    public function users(){
         return $this->hasOne(User::class);
     }
 
-    public function department(){
+    public function departments(){
         return $this->hasOne(Department::class);
     }
 }

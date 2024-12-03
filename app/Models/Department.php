@@ -15,15 +15,15 @@ class Department extends Model
         'description',
     ];
 
-    public function user(){
+    public function users(){
         return $this->hasMany(User::class);
     }
 
-    public function served(){
+    public function serveds(){
         return $this->hasMany(Served::class);
     }
 
-    public function request(){
+    public function requests(){
         return $this->hasMany(Request::class);
     }
 }

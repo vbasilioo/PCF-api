@@ -19,11 +19,11 @@ class Address extends Model
         'user_id'
     ];
 
-    public function user(){
+    public function users(){
         return $this->hasMany(User::class);
     }
 
-    public function served(){
+    public function serveds(){
         return $this->hasMany(Served::class);
     }
 }

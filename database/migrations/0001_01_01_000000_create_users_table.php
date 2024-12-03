@@ -27,7 +27,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->date('date_of_birth');
-            $table->enum('role', ['ADMINISTRADOR', 'GESTÃO', 'VOLUNTÁRIO'])->default('VOLUNTÁRIO');
+            $table->enum('role', ['ADMINISTRADOR', 'PRESIDÊNCIA', 'GESTÃO', 'VOLUNTÁRIO'])->default('VOLUNTÁRIO');
             $table->string('profile_image')->nullable();
             $table->uuid('department_id');
             $table->rememberToken();
@@ -118,8 +118,32 @@ return new class extends Migration
 
         Schema::create('rounds', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->integer('quantity_rounds');
+            $table->integer('round_number')->default(1);
             $table->uuid('user_id');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+
+        Schema::create('round_users', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('round_id');
+            $table->uuid('user_id');
+            $table->boolean('completed')->default(false);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('round_id')->references('id')->on('rounds');
+        });
+
+        Schema::create('available_users', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('user_id');
+            $table->string('name');
+            $table->string('area');
+            $table->boolean('available_on_saturday')->default(true);
             $table->timestamps();
             $table->softDeletes();
 
@@ -146,6 +170,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('logs');
+        Schema::dropIfExists('available_users');
+        Schema::dropIfExists('round_users');
         Schema::dropIfExists('rounds');
         Schema::dropIfExists('financials');
         Schema::dropIfExists('news');

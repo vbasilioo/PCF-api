@@ -11,11 +11,13 @@ class Round extends Model
     use HasUuids, SoftDeletes;
 
     protected $fillable = [
-        'quantity_rounds',
+        'round_number',
         'user_id'
     ];
 
-    public function user(){
-        return $this->hasMany(User::class);
+    public function users(){
+        return $this->belongsToMany(User::class, 'round_users')
+            ->withPivot('completed')
+            ->withTimestamps();
     }
 }

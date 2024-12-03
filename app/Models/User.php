@@ -78,11 +78,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Address::class);
     }
 
-    public function department(){
+    public function departments(){
         return $this->hasOne(Department::class);
     }
 
-    public function request(){
+    public function requests(){
         return $this->hasMany(Request::class);
     }
 
@@ -90,11 +90,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(News::class);
     }
 
-    public function financial(){
+    public function financials(){
         return $this->hasMany(Financial::class);
     }
 
-    public function round(){
-        return $this->hasMany(Round::class);
+    public function rounds(){
+        return $this->belongsToMany(Round::class, 'round_users')
+            ->withPivot('completed')
+            ->withTimestamps();
     }
 }

@@ -23,7 +23,7 @@ class UpdateRoundRequest extends FormRequest
     {
         return [
             'id' => 'required|exists:rounds,id',
-            'quantity_rounds' => 'required|integer',
+            'round_number' => 'required|integer',
             'user_id' => 'required|exists:users,id'
         ];
     }

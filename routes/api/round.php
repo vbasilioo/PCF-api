@@ -3,7 +3,9 @@
 use App\Http\Controllers\Round\RoundController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth.api', 'type:ADMINISTRADOR|GESTÃO'])->group(function (){
+Route::middleware(['auth.api', 'type:ADMINISTRADOR|PRESIDÊNCIA'])->group(function (){
+    Route::get('/validate', [RoundController::class, 'roundsValidate']);
+
     Route::post('/', [RoundController::class, 'store']);
     Route::get('/', [RoundController::class, 'index']);
     Route::get('/{id}', [RoundController::class, 'show']);

@@ -6,17 +6,13 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class News extends Model
+class RoundUser extends Model
 {
     use HasUuids, SoftDeletes;
 
     protected $fillable = [
-        'title',
-        'content',
-        'author_id',
+        'round_id',
+        'user_id',
+        'completed'
     ];
-
-    public function users(){
-        return $this->hasOne(User::class);
-    }
 }

@@ -17,7 +17,7 @@ class Financial extends Model
         'user_id'
     ];
 
-    public function user(){
+    public function users(){
         return $this->hasOne(User::class);
     }
 }

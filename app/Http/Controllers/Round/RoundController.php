@@ -68,4 +68,13 @@ class RoundController extends Controller
             throw new ApiException($ex->getMessage() ?? 'Erro ao restaurar a ronda.', $ex->getCode() ?? 500);
         }
     }
+
+    public function roundsValidate(){
+        try{
+            $data = $this->roundService->drawRound();
+            return ReturnApi::success($data, 'Rondas validadas com sucesso.');
+        }catch(ApiException $ex){
+            throw new ApiException($ex->getMessage() ?? 'Erro ao realizar validação de rondas.', $ex->getCode() ?? 500);
+        }
+    }
 }
